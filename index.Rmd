@@ -40,7 +40,7 @@ editor_options:
 # Overview
 
 1. Why?
-2. How?  The basics…
+2. How?
 3. More complex elections
 4. Bayesian approaches
 5. Australian elections
@@ -59,10 +59,9 @@ class: inverse, center, middle
 - Foundational for democracy
 - Can be challenging to run effectively
 
+--
 
----
-
-# Elections in Australia
+## Elections in Australia
 
 - Inclusive
 - Efficiently run
@@ -127,14 +126,15 @@ NSW local council elections, Nov/Dec 2021:
 
 Also previously:
 
-* Encryption flaws discovered by Vanessa and colleagues
+* Encryption flaws discovered by Vanessa and colleagues  
+  (Thomas Haines, Sarah Jamie Lewis, Olivier Pereira)
 
 
 ---
 
 # Australian Senate elections
 
-Ballot papers are handled electronically (for many parts of the process):
+Ballot papers are handled electronically (for some parts of the process):
 
 - Scanned
 - Digitised
@@ -147,7 +147,7 @@ What could go wrong?
 --
 
 - Machines are proprietary and closed-source
-- Scanning and counting not fully open to scrutiny
+- Scanning and counting not fully open to scrutiny(?)
 
 
 ---
@@ -179,34 +179,11 @@ Other examples:
 - Hole-punch filling
 - Image manipulation attacks
 
-
----
-
-# Informal experiment
-
-Victorian Senate 2019
-
-```{r senate-experiment, echo=FALSE, fig.align='left'}
-senate <- data.frame(Mismatches = 0:1, Count = c(12, 3))
-knitr::kable(senate, "html")
-```
-
 --
 
-.center[
+In the Appendix:
 
-**Rough** estimate of per-digit error: (0.03%, 0.38%)
-
-]
-
-
----
-
-# Simulating errors
-
-Tasmanian Senate 2016
-
-![](images/senate-errors-simulation.png)
+- Senate errors experiment
 
 
 ---
@@ -222,7 +199,9 @@ Nov 2021:
 New legislation passed (Assurance of Senate Counting), requiring:
 
 * A statistical check of the accuracy of the digital data
-* Not a full audit
+* Not a 'full' audit
+
+(more details at the end)
 
 
 ---
@@ -258,6 +237,8 @@ class: inverse, center, middle
 
     - Comparison audits
 
+    - Hybrid audits
+
 
 ---
 
@@ -271,7 +252,7 @@ We 'survey' the ballots
 
 We need:
 
-* A paper trail (i.e. paper ballots)
+* A trustworthy paper trail (i.e. paper ballots)
 * A list/record of all ballots
 * Ability to retrieve specific ballots
 
@@ -312,7 +293,7 @@ Albo vs Scott
 True vote proportion for a particular candidate (reported winner):
 $$p = \Pr(X = \text{Albo})$$
 
-Sample (assume iid):
+Sample (assume iid, and no invalid votes):
 $$X_1, X_2, \ldots, X_n \in \{\text{Albo}, \text{Scott}\}$$
 
 --
@@ -393,6 +374,25 @@ $$\text{95% confidence interval: } (0.55, 0.74)$$
 
 ---
 
+# Traditional post-election audits
+
+Sample a **fixed** number (proportion) of ballots
+
+--
+
+## Example
+
+Californian law 1965:
+
+1% of ballots to be checked by hand
+
+--
+
+...and what next?
+
+
+---
+
 # Outcomes
 
 ## Possible decisions
@@ -435,21 +435,6 @@ $$\begin{cases}
 \alpha = \Pr(\text{Type 1 error}) = \text{Miscertification rate} \\
 \beta  = \Pr(\text{Type 2 error}) = \text{Unnecessary recount rate}
 \end{cases}$$
-
-
----
-
-# Traditional post-election audits
-
-Sample a **fixed** number (proportion) of ballots
-
---
-
-## Example
-
-Californian law 1965:
-
-1% of ballots to be checked by hand
 
 
 ---
@@ -595,6 +580,10 @@ Winner's vote proportion = 61% (Obama)
 
 Expected sample size = 97 (0.0007% of votes)
 
+--
+
+(assuming a hypothetical, single-electorate election)
+
 
 ---
 
@@ -630,7 +619,7 @@ The sample size required is variable
 
 # BRAVO
 
-An RLA by Lindeman, Stark & Yates (2012)
+An RLA by [Lindeman, Stark & Yates (2012)](https://www.usenix.org/conference/evtwote12/workshop-program/presentation/lindeman)
 
 'Ballot-polling Risk-Limiting Audits to Verify Outcomes'
 
@@ -653,6 +642,8 @@ We can stop sampling at any time and initiate a recount.
 
 
 ---
+
+# BRAVO
 
 ```{r simulated-process-with-boundary, echo=FALSE, fig.retina=2, fig.width=9, fig.height=7}
 N <- 1e5            # total ballots
@@ -688,7 +679,7 @@ b <- Vectorize(bravo_bound)(ns) / ns
 
 matplot(a1, type = "l", lwd = 3, lty = 1, col = c(1, 3, 6), las = 1,
         ylim = c(0, 1), xlab = "Sample size", ylab = "Sample proportion")
-abline(h = 0.5, lty = 2, lwd = 2, col = "darkgrey")
+abline(h = 0.5, lty = 3, lwd = 2, col = "darkgrey")
 lines(ns, b, col = 4, lty = 2, lwd = 2)  # decision boundary
 legend("topright", "Certification boundary",
        lwd = 2, lty = 2, col = 4)
@@ -727,7 +718,7 @@ class: inverse, center, middle
 
 ```{r plurality-example-barplot, echo=FALSE, fig.width=10}
 barplot(c(2256, 1746, 88, 1010),
-        names.arg = c("Albo", "Scott", "Adam", "Barnaby"),
+        names.arg = c("Albo", "Scott", "Pauline", "Penny"),
         las  = 1,
         col  = "lightblue",
         ylab = "Votes")
@@ -745,8 +736,8 @@ Assume candidate 1 is the reported winner
 
 Hypotheses:
 $$\begin{cases}
-H_0\colon p_1 \leqslant p_j \text{ for some } j > 1 \\
-H_1\colon p_1 > p_j \text{ for all } j > 1
+H_0\colon \; p_1 \leqslant p_j, & \text{for some } j > 1 \\
+H_1\colon \; p_1 >         p_j, & \text{for all } j > 1
 \end{cases}$$
 
 
@@ -756,13 +747,13 @@ H_1\colon p_1 > p_j \text{ for all } j > 1
 
 .center[
 
-```{r 3cand-ternary-plot, echo=FALSE, fig.height=7, fig.width=7}
+```{r 3cand-ternary-plot, echo=FALSE, fig.height=8, fig.width=8, warning=FALSE}
 library(Ternary)
 
 par(mar = c(0.5, 0.5, 0.5, 0.5))
 TernaryPlot(alab = "Albo\u2192",
             blab = "Scott\u2192",
-            clab = "\u2190Adam",
+            clab = "\u2190Pauline",
             grid.lines = 4)
 
 N <- 10
@@ -871,87 +862,12 @@ General framework for RLAs
 
 Decouple into separate problems:
 
-1. Voting rules $\rightarrow$ 'assertions'
+1. Voting rules $\rightarrow$ 'assertions' & 'assorters'
 2. Statistical tests $\rightarrow$ canonical form (univariate, nonnegative)
 
-
----
-
-# SHANGRLA elements
-
-- Assertions
-
-    * Mathematical statements about all ballots in a contest
-
 --
 
-- Assorters
-
-    * Mathematical functions on ballots: $b \mapsto h(b) \geqslant 0$
-    * Correspond to assertions
-    * Assertion is true $\Leftrightarrow$ assorter mean $> 1/2$
-
---
-
-- Statistical tests are all of the same form:
-$$\begin{cases}
-H_0\colon \text{assorter mean} \leqslant 1/2 \\
-H_1\colon \text{assorter mean} > 1/2
-\end{cases}$$
-
----
-
-# Example: Albo vs Scott
-
-* 2-candidate contest
-* Reported winner: Albo
-
---
-
-Assertion  
-$\quad p_\text{Albo} > p_\text{Scott}$
-
---
-
-Assorter
-
-- Albo $\mapsto 1$
-- Scott $\mapsto 0$
-- Invalid vote $\mapsto 0.5$
-
-
----
-
-# Example: Hesse local elections
-
-![](images/hesse-ballot.png)
-
-
----
-
-# Example: Hesse local elections
-
-Party-list proportional representation contest
-
-- Can vote for **multiple** candidates
-- Can give **multiple** votes for each candidate
-
---
-
-Need **pairwise difference** assertions:
-
-$$p_A > p_B + d$$
-
---
-
-An assorter for this:
-
-$$h(b) = \frac{b_A - b_B - d \cdot b_T + m_\mathcal{L} \cdot (1 + d)}
-              {2 m_\mathcal{L} \cdot (1 + d)}$$
-
---
-
-See [Blom et al. (2021)](https://doi.org/10.1007/978-3-030-86942-7_4) for details
+More details in the Appendix
 
 
 ---
@@ -986,7 +902,10 @@ Sequence of random variables $Z_j$, $j = 1, 2, \ldots$, such that
 
 --
 
-An example: unbiased random walk is a martingale (can be negative)
+Examples of martingales:
+
+* A gambler's fortune in fair game
+* An unbiased random walk (can be negative, or can stop at 0)
 
 
 ---
@@ -1044,9 +963,9 @@ See [Stark (2022)](https://arxiv.org/abs/2201.02707) for details
 
 ## Short course
 
-Philip will present martingale-based methods in a short course in mid-April
+Philip will present martingale-based methods in a short course on 12-14 April (dates TBC)
 
-**Ask me if interested!**
+Look out for an announcement, or **ask me if interested!**
 
 
 ---
@@ -1055,6 +974,7 @@ Philip will present martingale-based methods in a short course in mid-April
 
 ## Real-world issues
 
+- Invalid votes
 - Missing ballots
 - Contest not on ballot
 - Stratified sampling
@@ -1103,25 +1023,6 @@ Legislated in 11 states
 
 
 ---
-
-# Open questions
-
-Which voting rules cannot be encoded as assertions?
-
-For which voting rules is there:
-
-- a **sufficient** set of assertions?
-- a **necessary and sufficient** set of assertions?
-
-Are all sets of necessary and sufficient conditions equally expensive to audit?
-
-Are any voting rules intrinsically harder to audit than others?
-
-Are there optimal tests for testing SHANGRLA assertions, for various types of
-elections?
-
-
----
 class: inverse, center, middle
 
 # Bayesian approaches
@@ -1153,42 +1054,20 @@ $$\Pr(H_0 \mid X_1, \ldots, X_n) < v$$
 
 ---
 
-# Bayes factor
-
-Can reformulate in terms of the **Bayes factor**
-
---
-
-$$S_n = \frac{\Pr(X_1, \ldots, X_n \mid H_1)}
-           {\Pr(X_1, \ldots, X_n \mid H_0)}
-    = \frac{\int_{0.5}^1 p^{Y_n} (1 - p)^{n - Y_n} f(p) dp}
-           {\int_0^{0.5} p^{Y_n} (1 - p)^{n - Y_n} f(p) dp}$$
-
---
-
-Certify election if $S_n > h$
-
---
-
-(Note similarity to the SPRT)
-
-
----
-
 # Correspondence with the SPRT
 
 Choose the following prior:
 $$f(p) = \begin{cases}
-\frac{1}{2} & p = p_0 \\
-\frac{1}{2} & p = p_1 \\
-0           & \text{otherwise}
+\frac{1}{2}, & \text{if } p = p_0 \\
+\frac{1}{2}, & \text{if } p = p_1 \\
+          0, & \text{otherwise}
 \end{cases}$$
 
 $\Rightarrow$ same as the SPRT
 
 --
 
-Also, the BF can be a martingale
+Also, can express some Bayesian quantities as martingalea
 
 --
 
@@ -1263,18 +1142,6 @@ Some challenges:
 
 
 ---
-
-# Open questions
-
-Are Bayesian audits risk-limiting for more complex voting rules?
-
-If so, when can we easily calculate the maximum risk and calibrate the audit?
-
-How does a 'direct' inference compare (in terms of efficiency) to
-assertion-based approaches?
-
-
----
 class: inverse, center, middle
 
 # Auditing Australian elections
@@ -1316,22 +1183,9 @@ See [Blom et al. (2019)](https://arxiv.org/abs/1903.08804)
 
 --
 
-SHANGRLA assertions, of two types:
+Uses the SHANGRLA framework and a branch-and-bound algorithm
 
-1. Candidate $i$ has more first-place ranks than candidate $j$ has total 'mentions'.
-
-2. After a set of candidates $E$ have been eliminated from consideration,
-candidate $i$ is ranked higher than candidate $j$ on more ballots than vice
-versa.
-
---
-
-Branch-and-bound algorithm to optimise the set of assertions.
-
---
-
-RAIRE assertions provide only *sufficient* conditions, but not *necessary*
-conditions.
+(Some details in the Appendix)
 
 --
 
@@ -1413,7 +1267,7 @@ ARC project:
 
 **PhD project**  
 Generous top-up scholarship: up to $10k p.a.  
-[Applications welcom](https://apps.eng.unimelb.edu.au/research-projects/index.php?r=site/webView&id=820)
+[Applications welcome](https://apps.eng.unimelb.edu.au/research-projects/index.php?r=site/webView&id=820)
 
 
 ---
@@ -1423,16 +1277,38 @@ class: clear, center, middle
 
 
 ---
-
-# References
-
-TODO
-
-
----
 class: inverse, center, middle
 
 # Appendix
+
+
+---
+
+# Informal experiment
+
+Victorian Senate 2019
+
+```{r senate-experiment, echo=FALSE, fig.align='left'}
+senate <- data.frame(Mismatches = 0:1, Count = c(12, 3))
+knitr::kable(senate, "html")
+```
+
+--
+
+.center[
+
+**Rough** estimate of per-digit error: (0.03%, 0.38%)
+
+]
+
+
+---
+
+# Simulating errors
+
+Tasmanian Senate 2016
+
+![](images/senate-errors-simulation.png)
 
 
 ---
@@ -1447,4 +1323,155 @@ class: inverse, center, middle
 - 'Alpha spending' functions
 - Meta-analyses that are (expected to be) periodically updated
 - Election auditing
+
+
+---
+
+# SHANGRLA elements
+
+- Assertions
+
+    * Mathematical statements about all ballots in a contest
+
+--
+
+- Assorters
+
+    * Mathematical functions on ballots: $b \mapsto h(b) \geqslant 0$
+    * Correspond to assertions
+    * Assertion is true $\Leftrightarrow$ assorter mean $> 1/2$
+
+--
+
+- Statistical tests are all of the same form:
+$$\begin{cases}
+H_0\colon \text{assorter mean} \leqslant 1/2 \\
+H_1\colon \text{assorter mean} > 1/2
+\end{cases}$$
+
+
+---
+
+# Example: Albo vs Scott
+
+* 2-candidate contest
+* Reported winner: Albo
+
+--
+
+Assertion  
+$\quad p_\text{Albo} > p_\text{Scott}$
+
+--
+
+Assorter
+
+- Albo $\mapsto 1$
+- Scott $\mapsto 0$
+- Invalid vote $\mapsto 0.5$
+
+
+---
+
+# Example: Hesse local elections
+
+![](images/hesse-ballot.png)
+
+
+---
+
+# Example: Hesse local elections
+
+Party-list proportional representation contest
+
+- Can vote for **multiple** candidates
+- Can give **multiple** votes for each candidate
+
+--
+
+Need **pairwise difference** assertions:
+
+$$p_A > p_B + d$$
+
+--
+
+An assorter for this:
+
+$$h(b) = \frac{b_A - b_B - d \cdot b_T + m_\mathcal{L} \cdot (1 + d)}
+              {2 m_\mathcal{L} \cdot (1 + d)}$$
+
+--
+
+See [Blom et al. (2021)](https://doi.org/10.1007/978-3-030-86942-7_4) for details
+
+
+
+---
+
+# RAIRE assertions
+
+Two types of assertions:
+
+1. Candidate $i$ has more first-place ranks than candidate $j$ has total 'mentions'.
+
+2. After a set of candidates $E$ have been eliminated from consideration,
+candidate $i$ is ranked higher than candidate $j$ on more ballots than vice
+versa.
+
+--
+
+Branch-and-bound algorithm to optimise the set of assertions.
+
+--
+
+RAIRE assertions provide only *sufficient* conditions, but not *necessary*
+conditions.
+
+
+---
+
+# Bayes factor
+
+Can reformulate a Bayesian audit in terms of the **Bayes factor**
+
+--
+
+$$S_n = \frac{\Pr(X_1, \ldots, X_n \mid H_1)}
+           {\Pr(X_1, \ldots, X_n \mid H_0)}
+    = \frac{\int_{0.5}^1 p^{Y_n} (1 - p)^{n - Y_n} f(p) dp}
+           {\int_0^{0.5} p^{Y_n} (1 - p)^{n - Y_n} f(p) dp}$$
+
+--
+
+Certify election if $S_n > h$
+
+--
+
+(Note similarity to the SPRT)
+
+
+---
+
+# Open questions
+
+Which voting rules cannot be encoded as assertions?
+
+For which voting rules is there:
+
+- a **sufficient** set of assertions?
+- a **necessary and sufficient** set of assertions?
+
+Are all sets of necessary and sufficient conditions equally expensive to audit?
+
+Are any voting rules intrinsically harder to audit than others?
+
+Are there optimal tests for testing SHANGRLA assertions, for various types of
+elections?
+
+Are Bayesian audits risk-limiting for more complex voting rules?
+
+If so, when can we easily calculate the maximum risk and calibrate the audit?
+
+How does a 'direct' inference compare (in terms of efficiency) to
+assertion-based approaches?
 
