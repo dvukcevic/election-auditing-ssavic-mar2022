@@ -42,8 +42,7 @@ editor_options:
 1. Why?
 2. How?
 3. More complex elections
-4. Bayesian approaches
-5. Australian elections
+4. Australian elections
 
 
 ---
@@ -558,9 +557,9 @@ $$S_n = \frac{\Pr(X_1, \ldots, X_n | H_1)}
 
 Stopping rule:
 $$\begin{cases}
-S_n \leqslant \frac{\beta}{1 - \alpha} & \Rightarrow \text{Accept H_0} \\
-S_n \geqslant \frac{1 - \beta}{\alpha} & \Rightarrow \text{Accept H_1} \\
-\text{Otherwise} & \Rightarrow \text{Keep sampling}
+S_n \leqslant \frac{\beta}{1 - \alpha} & \Rightarrow \text{accept } H_0 \\
+S_n \geqslant \frac{1 - \beta}{\alpha} & \Rightarrow \text{accept } H_1 \\
+\text{otherwise} & \Rightarrow \text{keep sampling}
 \end{cases}$$
 
 --
@@ -980,51 +979,6 @@ Look out for an announcement, or **ask me if interested!**
 ---
 class: inverse, center, middle
 
-# Bayesian approaches
-
-
----
-
-# Auditing via Bayesian inference
-
-Can use a Bayesian approach
-
---
-
-Pros and cons:
-
-- Provides a 'recipe' to follow
-- Not necessarily risk-limiting
-
---
-
-More details in the Appendix
-
-
----
-
-# Performance comparison example
-
-```{r sample-size-comparison, echo=FALSE, fig.retina=2, fig.width=9, fig.height=7}
-meansize <- read.csv("data/meansize.csv")
-matplot(meansize[, 1], meansize[, -1], type = "l", las = 1,
-        lwd = 3,
-        lty = c(1, 2, 2),
-        col = c(1, 3, 6),
-        xlab = "p (true value) ",
-        ylab = "Mean sample size")
-grid()
-legend("topright",
-       c(expression("Bayesian, uniform prior"),
-         expression("BRAVO, " * p[1] == 0.7),
-         expression("BRAVO, " * p[1] == 0.55)),
-       lwd = 3, lty = c(1, 2, 2), col = c(1, 3, 6))
-```
-
-
----
-class: inverse, center, middle
-
 # Auditing Australian elections
 
 
@@ -1432,6 +1386,27 @@ For ballot-polling audits of 2-candidate contests with no invalid votes:
 * Bayesian audits are risk-limiting
 
 See [Huang et al. (2020)](https://arxiv.org/abs/2008.08536) for details
+
+
+---
+
+# Performance comparison example
+
+```{r sample-size-comparison, echo=FALSE, fig.retina=2, fig.width=9, fig.height=7}
+meansize <- read.csv("data/meansize.csv")
+matplot(meansize[, 1], meansize[, -1], type = "l", las = 1,
+        lwd = 3,
+        lty = c(1, 2, 2),
+        col = c(1, 3, 6),
+        xlab = "p (true value) ",
+        ylab = "Mean sample size")
+grid()
+legend("topright",
+       c(expression("Bayesian, uniform prior"),
+         expression("BRAVO, " * p[1] == 0.7),
+         expression("BRAVO, " * p[1] == 0.55)),
+       lwd = 3, lty = c(1, 2, 2), col = c(1, 3, 6))
+```
 
 
 ---

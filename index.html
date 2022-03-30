@@ -49,8 +49,7 @@ class: center, middle, inverse, title-slide
 1. Why?
 2. How?
 3. More complex elections
-4. Bayesian approaches
-5. Australian elections
+4. Australian elections
 
 
 ---
@@ -524,9 +523,9 @@ Test statistic (likelihood ratio):
 
 Stopping rule:
 `$$\begin{cases}
-S_n \leqslant \frac{\beta}{1 - \alpha} &amp; \Rightarrow \text{Accept H_0} \\
-S_n \geqslant \frac{1 - \beta}{\alpha} &amp; \Rightarrow \text{Accept H_1} \\
-\text{Otherwise} &amp; \Rightarrow \text{Keep sampling}
+S_n \leqslant \frac{\beta}{1 - \alpha} &amp; \Rightarrow \text{accept } H_0 \\
+S_n \geqslant \frac{1 - \beta}{\alpha} &amp; \Rightarrow \text{accept } H_1 \\
+\text{otherwise} &amp; \Rightarrow \text{keep sampling}
 \end{cases}$$`
 
 --
@@ -876,37 +875,6 @@ Look out for an announcement, or **ask me if interested!**
 # RLAs in the 'wild' (in the USA)
 
 ![](https://www.stat.berkeley.edu/~stark/Seminars/Audit16/napa-rivest-stark.jpg)
-
-
----
-class: inverse, center, middle
-
-# Bayesian approaches
-
-
----
-
-# Auditing via Bayesian inference
-
-Can use a Bayesian approach
-
---
-
-Pros and cons:
-
-- Provides a 'recipe' to follow
-- Not necessarily risk-limiting
-
---
-
-More details in the Appendix
-
-
----
-
-# Performance comparison example
-
-&lt;img src="index_files/figure-html/sample-size-comparison-1.png" width="648" /&gt;
 
 
 ---
@@ -1333,6 +1301,13 @@ For ballot-polling audits of 2-candidate contests with no invalid votes:
 * Bayesian audits are risk-limiting
 
 See [Huang et al. (2020)](https://arxiv.org/abs/2008.08536) for details
+
+
+---
+
+# Performance comparison example
+
+&lt;img src="index_files/figure-html/sample-size-comparison-1.png" width="648" /&gt;
 
 
 ---
