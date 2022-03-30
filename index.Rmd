@@ -686,27 +686,6 @@ legend("topright", "Certification boundary",
 ```
 
 ---
-
-# Seeking optimality
-
-By definition, RLAs:
-
-- Bound the risk (type 1 error $\leqslant \alpha$)
-- Never accept $H_0$ (type 2 error $= 0$)
-
---
-
-**Efficiency** is measured by the required sample size
-
---
-
-Since this is random, we can summarise in various ways:
-
-- Mean
-- 90th percentile
-
-
----
 class: inverse, center, middle
 
 # More complex elections
@@ -995,30 +974,6 @@ Look out for an announcement, or **ask me if interested!**
 
 # RLAs in the 'wild' (in the USA)
 
-Endorsed by:
-
-- National Academies of Sciences, Engineering, and Medicine
-- American Statistical Association
-- PCEA, LWV, CC, VV,...
-
---
-
-Statewide use in:
-
-- Colorado since 2017
-- Alaska, Kansas, Wyoming since 2020
-
---
-
-~60 pilot audits across 17 states
-
-Legislated in 11 states
-
-
----
-
-# RLAs in the 'wild' (in the USA)
-
 ![](https://www.stat.berkeley.edu/~stark/Seminars/Audit16/napa-rivest-stark.jpg)
 
 
@@ -1032,46 +987,18 @@ class: inverse, center, middle
 
 # Auditing via Bayesian inference
 
-Back to Albo vs Scott...
-$$p = \Pr(X = \text{Albo})$$
-
-Specify a **prior distribution** on $p$, e.g. uniform
-$$f(p) = 1, \quad p \in [0,1]$$
+Can use a Bayesian approach
 
 --
 
-Data + prior $\rightarrow$ **posterior distribution** on $p$
+Pros and cons:
+
+- Provides a 'recipe' to follow
+- Not necessarily risk-limiting
 
 --
 
-'Upset probability': $$\Pr(H_0 \mid X_1,\ldots,X_n)$$
-
---
-
-Certify election if upset probability is low enough
-$$\Pr(H_0 \mid X_1, \ldots, X_n) < v$$
-
-
----
-
-# Correspondence with the SPRT
-
-Choose the following prior:
-$$f(p) = \begin{cases}
-\frac{1}{2}, & \text{if } p = p_0 \\
-\frac{1}{2}, & \text{if } p = p_1 \\
-          0, & \text{otherwise}
-\end{cases}$$
-
-$\Rightarrow$ same as the SPRT
-
---
-
-Also, can express some Bayesian quantities as martingalea
-
---
-
-Provides a unified perspective
+More details in the Appendix
 
 
 ---
@@ -1084,7 +1011,7 @@ matplot(meansize[, 1], meansize[, -1], type = "l", las = 1,
         lwd = 3,
         lty = c(1, 2, 2),
         col = c(1, 3, 6),
-        xlab = expression(p[T]),
+        xlab = "p (true value) ",
         ylab = "Mean sample size")
 grid()
 legend("topright",
@@ -1093,52 +1020,6 @@ legend("topright",
          expression("BRAVO, " * p[1] == 0.55)),
        lwd = 3, lty = c(1, 2, 2), col = c(1, 3, 6))
 ```
-
-
----
-
-# Some recent work
-
-For ballot-polling audits of 2-candidate contests with no invalid votes:
-
-* Benchmarked several methods
-* Bayesian audits are risk-limiting
-
-See [Huang et al. (2020)](https://arxiv.org/abs/2008.08536) for details
-
-
----
-
-# Properties, not dichotomies
-
-'Bayesian' and 'risk-limiting' are not mutually exclusive
-
---
-
-But...
-* Upset probability $\neq$ risk limit
-
-
----
-
-# Bayesian audits for complex elections
-
-Just follow the 'recipe'?
-
---
-
-* Specify the model
-
-* Certify election if upset probability is low enough
-$$\Pr(H_0 \mid X_1, \ldots, X_n) < v$$
-
---
-
-Some challenges:
-
-* Calculations can get involved
-* Need to choose a sensible prior
-* Not necessarily risk-limiting
 
 
 ---
@@ -1284,7 +1165,7 @@ class: inverse, center, middle
 
 ---
 
-# Informal experiment
+# Senate errors experiment
 
 Victorian Senate 2019
 
@@ -1323,6 +1204,27 @@ Tasmanian Senate 2016
 - 'Alpha spending' functions
 - Meta-analyses that are (expected to be) periodically updated
 - Election auditing
+
+
+---
+
+# Seeking optimality
+
+By definition, RLAs:
+
+- Bound the risk (type 1 error $\leqslant \alpha$)
+- Never accept $H_0$ (type 2 error $= 0$)
+
+--
+
+**Efficiency** is measured by the required sample size
+
+--
+
+Since this is random, we can summarise in various ways:
+
+- Mean
+- 90th percentile
 
 
 ---
@@ -1430,9 +1332,57 @@ conditions.
 
 ---
 
+# RLAs in the 'wild' (in the USA)
+
+Endorsed by:
+
+- National Academies of Sciences, Engineering, and Medicine
+- American Statistical Association
+- PCEA, LWV, CC, VV,...
+
+--
+
+Statewide use in:
+
+- Colorado since 2017
+- Alaska, Kansas, Wyoming since 2020
+
+--
+
+~60 pilot audits across 17 states
+
+Legislated in 11 states
+
+
+---
+
+# Auditing via Bayesian inference
+
+Back to Albo vs Scott...
+$$p = \Pr(X = \text{Albo})$$
+
+Specify a **prior distribution** on $p$, e.g. uniform
+$$f(p) = 1, \quad p \in [0,1]$$
+
+--
+
+Data + prior $\rightarrow$ **posterior distribution** on $p$
+
+--
+
+'Upset probability': $$\Pr(H_0 \mid X_1,\ldots,X_n)$$
+
+--
+
+Certify election if upset probability is low enough
+$$\Pr(H_0 \mid X_1, \ldots, X_n) < v$$
+
+
+---
+
 # Bayes factor
 
-Can reformulate a Bayesian audit in terms of the **Bayes factor**
+Can reformulate in terms of the **Bayes factor** (BF)
 
 --
 
@@ -1448,6 +1398,74 @@ Certify election if $S_n > h$
 --
 
 (Note similarity to the SPRT)
+
+
+---
+
+# Correspondence with the SPRT
+
+Choose the following prior:
+$$f(p) = \begin{cases}
+\frac{1}{2}, & \text{if } p = p_0 \\
+\frac{1}{2}, & \text{if } p = p_1 \\
+          0, & \text{otherwise}
+\end{cases}$$
+
+$\Rightarrow$ same as the SPRT
+
+--
+
+Also, can express some Bayesian quantities as martingales
+
+--
+
+Provides a unified perspective
+
+
+---
+
+# Some recent work
+
+For ballot-polling audits of 2-candidate contests with no invalid votes:
+
+* Benchmarked several methods
+* Bayesian audits are risk-limiting
+
+See [Huang et al. (2020)](https://arxiv.org/abs/2008.08536) for details
+
+
+---
+
+# Properties, not dichotomies
+
+'Bayesian' and 'risk-limiting' are not mutually exclusive
+
+--
+
+But...
+* Upset probability $\neq$ risk limit
+
+
+---
+
+# Bayesian audits for complex elections
+
+Just follow the 'recipe'?
+
+--
+
+* Specify the model
+
+* Certify election if upset probability is low enough
+$$\Pr(H_0 \mid X_1, \ldots, X_n) < v$$
+
+--
+
+Some challenges:
+
+* Calculations can get involved
+* Need to choose a sensible prior
+* Not necessarily risk-limiting
 
 
 ---
